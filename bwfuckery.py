@@ -3,7 +3,7 @@ import sys
 def main(argv, stdin):
 	first_tape = [0]
 	second_tape = [0]
-	code = argv[1]
+	code = argv[1].replace('\n', '').replace('\t', '').replace(' ', '')
 	tapes = "-t" in argv[2:]
 	debug = "-d" in argv[2:]
 	numeric = "-n" in argv[2:]
@@ -75,22 +75,12 @@ def main(argv, stdin):
 				loop_depth -= 1
 				
 		if char == "(":
-			loop_depth += 1
-			if (not first_tape[tape_head]&1):
+			if not first_tape[tape_head]:
 				search = 1
 				while search:
 					code_index += 1
 					if code[code_index] == '(': search += 1
 					if code[code_index] == ')': search -= 1
-		if char == ")":
-			if (first_tape[tape_head]&1):
-				search = 1
-				while search:
-					code_index -= 1
-					if code[code_index] == ')': search += 1
-					if code[code_index] == '(': search -= 1
-			else:
-				loop_depth -= 1
 		code_index += 1
 
 		if debug:
